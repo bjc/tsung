@@ -472,7 +472,7 @@ read_chunked_body(Type, Hdrs, Socket, Acc) ->
     {ok, HexLen} = socket_recv(Type, Socket, 0),
     socket_setopts(Type, Socket, [{packet, raw}]),
 
-    Len = binary_to_integer(binary_part(HexLen, 0, byte_size(HexLen) - 2), 16),
+    Len = list_to_integer(binary_to_list(binary_part(HexLen, 0, byte_size(HexLen) - 2)), 16),
     case Len of
         0 ->
             {ok, _} = socket_recv(Type, Socket, 2),
